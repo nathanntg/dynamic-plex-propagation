@@ -1,4 +1,4 @@
-function s = dpp(A, k, m)
+function [vertices, dynamic_communities] = dpp(A, k, m)
 %DPP Dynamic plex propogation algorithm
 %   Takes a series of adjacency matrices over time and identifies static
 %   cliques and k-plexes at each time step. Communities are then linked
@@ -73,13 +73,15 @@ for t = 1:(max_t - 1)
     
     % renumber communities as we go
     n = size(vertices{t}, 1);
-    % for each community in time t
-    for i = 1:n
-        % look for communities in time t+1 that received the same dynamic
-        % community number during the dpp_iteration
-        for j = find(ismember(dyn_communities(n+1:end), dyn_communities(i)))
-            % merge communities together
-            communities = communities_merge(communities, dc{t}(i), dc{t+1}(j));
+    if n < length(dyn_communities)
+        % for each community in time t
+        for i = 1:n
+            % look for communities in time t+1 that received the same dynamic
+            % community number during the dpp_iteration
+            for j = find(dyn_communities(n+1:end) == dyn_communities(i))
+                % merge communities together
+                communities = communities_merge(communities, dc{t}(i), dc{t+1}(j));
+            end
         end
     end
 end
@@ -87,8 +89,14 @@ end
 % renumber communities
 communities = communities_renumber(communities);
 
+% make dynamic components
+dynamic_communities = cell(1, max_t);
+for t = 1:max_t
+    dynamic_communities{t} = communities(dc{t});
+end
+
 % project the communities into the new numbering
-dynamic_communities = communities(horzcat(dc{:}));
+%dynamic_communities = communities(horzcat(dc{:}));
 
 % convert to structure
-s = struct('vertices', vertcat(vertices{:}), 'time', vertcat(times{:}), 'community', dynamic_communities');
+%s = struct('vertices', vertcat(vertices{:}), 'time', vertcat(times{:}), 'community', dynamic_communities');
