@@ -18,7 +18,7 @@ function h = bk(a, minsize)
     
     % degenerecy ordering
     ord = nan(1, n);       % to store a degeneracy ordering of the vertices
-    a_temp = a; % copy
+    a_temp = double(a); % copy
     for i = 1:n
         deg = sum(a_temp, 2);
         % get entry of lowest degree vertex 
@@ -48,7 +48,7 @@ function h = bk(a, minsize)
             end
         else
             pivots = find(or(P, X));
-            p_counts = a(pivots, :) * P';
+            p_counts = sum(a(pivots, P), 2);
             [~, ind] = max(p_counts);
             u_p = pivots(ind);
             
