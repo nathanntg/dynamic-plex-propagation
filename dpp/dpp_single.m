@@ -40,7 +40,7 @@ for i = 1:(n-1)
     already_considered(i) = true; % only looks at vertices > i (since symmetric adjacency)
     connected_to_i = a(i, :);
     in_clique_with_i = any(cliq(cliq(:, i), :));
-    j = find(already_considered & connected_to_i & ~in_clique_with_i);
+    j = find(~already_considered & connected_to_i & ~in_clique_with_i);
     
     % if found other vertices, add them to our list
     if ~isempty(j)
