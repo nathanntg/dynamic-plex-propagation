@@ -28,6 +28,18 @@ The algorithm can be run as follows:
 
 The `vertices` cell array contains a logical matrix with `n` columns (corresponding to the number of vertices in the dynamic adjacency matrix) and `d` rows (corresponding to the dynamic communities listed in the `communities` vector for the same time step). The logical matrix represents which vertices compose the community at that time step.
 
+## Visualizing the output
+
+To help visualize the dynamic communities, functions are available to create a movie file showing the progression of dynamic communities over time. This code was originally written by Weston Viles (see references) and adapted to this dynamic plex propagation implementation.
+
+A movie can be generated using the following command:
+
+```matlab
+movie_dynamic_communities('movie.mp4', C, vertices, communities, xy, taxis, frame_rate);
+```
+
+**Inputs:** The first parameter is a file name for the generated movie. Matrix `C` is the dynamic adjacency matrix. Arguments `vertices` and `communities` are the outputs of the dynamic plex propagation algorithm. Matrix `xy` is a `n` by 2 matrix providing coordinates of each vertex in 2D space for plotting purposes. The optional parameter `taxis` provides timestamps for each frame, and the optinal parameter `frame_rate` sets the framerate for the saved video file (which defaults to 5 frames / second).
+
 ## References
 
 Palla, Gergely, Imre Derényi, Illés Farkas, and Tamás Vicsek. 2005. “Uncovering the Overlapping Community Structure of Complex Networks in Nature and Society.” Nature 435 (7043): 814–18.
