@@ -14,17 +14,20 @@ v = 1:n;
 [x, y] = meshgrid(v, v);
 ult = y < x;
 
-% ignore rest of matrix
-edge_freq(~ult) = 0;
-
 % make into a column vector
-edge_freq = reshape(edge_freq, [], 1);
-x_index = reshape(x, [], 1);
-y_index = reshape(y, [], 1);
+edge_freq = reshape(edge_freq(ult), [], 1);
+x = reshape(x(ult), [], 1);
+y = reshape(y(ult), [], 1);
+idx = 1:length(edge_freq);
 
 % max edges
 max_edges = (n * (n - 1)) / 2;
-target_edges = max_edges * densities;
+if max(densities) <= 1
+    target_edges = round(max_edges * densities);
+else
+    target_edges = densities;
+    target_edges(densities > max_edges) = max_edges;
+end
 
 % empty network
 C = false(n, n, time_steps);
@@ -34,14 +37,13 @@ for t = 1:time_steps
 	
 	% add edges up to target density
 	for i = 1:target_edges(t)
-		c = cumsum([0; cur_edge_freq]);
-		idx = find(c >= rand * c(end), 1);
-        j = x_index(idx);
-        k = y_index(idx);
-        cur_edge_freq(idx) = 0;
+        j = randsample(idx, 1, true, cur_edge_freq);
+        k = x(j);
+        l = y(j);
+        cur_edge_freq(j) = 0;
         
-        C(j, k, t) = 1;
-        C(k, j, t) = 1;
+        C(l, k, t) = true;
+        C(k, l, t) = true;
 	end
 end
 
