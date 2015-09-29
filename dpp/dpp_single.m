@@ -39,7 +39,7 @@ for i = 1:(n-1)
     % i AND are not in a clique with i
     already_considered(i) = true; % only looks at vertices > i (since symmetric adjacency)
     connected_to_i = a(i, :);
-    in_clique_with_i = any(cliq(cliq(:, i), :));
+    in_clique_with_i = any(cliq(cliq(:, i), :), 1);
     j = find(~already_considered & connected_to_i & ~in_clique_with_i);
     
     % if found other vertices, add them to our list
@@ -68,27 +68,30 @@ num_cliq_and_plex = size(cliq_and_plex, 1);
 % to start, everything in a seperate component
 communities = 1:num_cliq_and_plex;
 
+% precompute thresholds
+threshold = (m - 1) * ones(num_cliq_and_plex, 1);
+threshold((num_cliq + 1):num_cliq_and_plex) = m - 2;
+
 % consider pairs of cliques/k-plexes
 for i = 1:(num_cliq_and_plex-1)
-    for j = (i+1):num_cliq_and_plex
-        % count the overlap in vertices between clique/k-plex i and
-        % clique/k-plex j
-        overlap = sum(and(cliq_and_plex(i, :), cliq_and_plex(j, :)));
-        
-        % if either one is a clique
-        if xor(i <= num_cliq, j <= num_cliq)
-            % then the overlap must be greater than m-2
-            if overlap >= (m-2)
-                % merge into a community
-                communities = communities_merge(communities, i, j);
-            end
-        else
-            % otherwise the overlap must be greater than m-1
-            if overlap >= (m-1)
-                % merge into a community
-                communities = communities_merge(communities, i, j);
-            end
-        end
+    % remaining cliques/plexes
+    js = (i+1):num_cliq_and_plex;
+    
+    % vector of overlaps between remaining cliques/plexes and clique/plex i
+    overlap = sum(cliq_and_plex(js, cliq_and_plex(i, :)), 2);
+    
+    % threshold for xor(i <= num_cliq, j <= num_cliq) is m-2
+    % elsewhere is m-1
+    % since i < j, can use shortcut
+    if i <= num_cliq
+        idx = overlap >= threshold(js);
+    else
+        idx = overlap >= (m-1);
+    end
+    
+    for j = js(idx)
+        % merge into a community
+        communities = communities_merge(communities, i, j);
     end
 end
 
