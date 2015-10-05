@@ -84,6 +84,8 @@ for t = 1:(max_t - 1)
             end
         end
     end
+    
+    %fprintf('%.1f%%\n', 100*t/max_t);
 end
 
 % renumber communities

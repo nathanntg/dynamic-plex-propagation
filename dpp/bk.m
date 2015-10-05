@@ -33,7 +33,7 @@ function h = bk(a, minsize)
         % get vertex
         v = ord(i);
         % fill boolean vector
-        R = false(1,n); R(v) = 1;
+        R = false(1,n); R(v) = true;
         % neighbors of v
         neigh_v = logical(a(v, :));
         P = neigh_v; P(ord(1:i)) = false;
