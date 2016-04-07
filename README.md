@@ -40,6 +40,15 @@ movie_dynamic_communities('movie.mp4', C, vertices, communities, xy, taxis, fram
 
 **Inputs:** The first parameter is a file name for the generated movie. Matrix `C` is the dynamic adjacency matrix. Arguments `vertices` and `communities` are the outputs of the dynamic plex propagation algorithm. Matrix `xy` is a `n` by 2 matrix providing coordinates of each vertex in 2D space for plotting purposes. The optional parameter `taxis` provides timestamps for each frame, and the optinal parameter `frame_rate` sets the framerate for the saved video file (which defaults to 5 frames / second).
 
+## More information
+
+For more information, check out the Wiki, which includes details on:
+
+* [Networks and dynamic networks](https://github.com/nathanntg/dynamic-plex-propagation/wiki/Networks-and-dynamic-networks)
+* [The algorithm itself](https://github.com/nathanntg/dynamic-plex-propagation/wiki/The-algorithm)
+
+And other helpful resources and documentation.
+
 ## References
 
 Palla, Gergely, Imre Derényi, Illés Farkas, and Tamás Vicsek. 2005. “Uncovering the Overlapping Community Structure of Complex Networks in Nature and Society.” Nature 435 (7043): 814–18.
