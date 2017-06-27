@@ -89,10 +89,16 @@ for i = 1:(num_cliq_and_plex-1)
         idx = overlap >= (m-1);
     end
     
+    % merge into a single community
+    communities_b = communities_merge2(communities, [i js(idx)]);
+    
     for j = js(idx)
         % merge into a community
         communities = communities_merge(communities, i, j);
     end
+    
+    % assert
+    assert(all(communities == communities_b));
 end
 
 % renumber components in sequential ascending order
