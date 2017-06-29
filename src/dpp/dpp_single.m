@@ -90,7 +90,7 @@ for i = 1:(num_cliq_and_plex-1)
     end
     
     % merge into a single community
-    communities = communities_merge2(communities, [i js(idx)]);
+    communities = communities_merge(communities, [i js(idx)]);
 end
 
 % renumber components in sequential ascending order
