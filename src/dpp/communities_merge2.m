@@ -7,8 +7,10 @@ nums = communities(idx);
 % use lowest as new community number
 new_num = min(nums);
 
-% renumber all
-communities(ismember(communities, nums)) = new_num;
+% renumber all, if required
+if any(nums > new_num)
+    communities(ismember(communities, nums)) = new_num;
+end
 
 end
 
