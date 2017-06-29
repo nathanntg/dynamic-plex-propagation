@@ -24,6 +24,8 @@ communities = [];
 
 % for each time step
 for t = 1:(max_t - 1)
+    disp(t);
+    
     if 1 < t
         % second and later iteration
         % reuse previous calculations
@@ -78,17 +80,7 @@ for t = 1:(max_t - 1)
         for i = 1:n
     
             % merge into a single community
-            communities_b = communities_merge2(communities, [dc{t}(i) dc{t+1}(dyn_communities(n+1:end) == dyn_communities(i))]);
-            
-            % look for communities in time t+1 that received the same dynamic
-            % community number during the dpp_iteration
-            for j = find(dyn_communities(n+1:end) == dyn_communities(i))
-                % merge communities together
-                communities = communities_merge(communities, dc{t}(i), dc{t+1}(j));
-            end
-
-            % assert
-            assert(all(communities == communities_b));
+            communities = communities_merge2(communities, [dc{t}(i) dc{t+1}(dyn_communities(n+1:end) == dyn_communities(i))]);
         end
     end
     
