@@ -35,7 +35,7 @@ for i = 1:mc1
                 overlap = sum(and(cliq_and_plex1(hi, :), cliq_and_plex2(hj, :)));
                 if overlap >= (m-1)
                     % merge the two communities
-                    dyn_communities = communities_merge(dyn_communities, i, j + mc1);
+                    dyn_communities = communities_merge(dyn_communities, [i, j + mc1]);
                     
                     % mark as found, stop looking
                     found = true;

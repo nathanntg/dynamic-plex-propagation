@@ -1,10 +1,15 @@
-function communities = communities_merge(communities, i, j)
-%COMP_MERGE Merges two communities together together.
+function communities = communities_merge(communities, idx)
+%COMMUNITIES_MERGE Merges multiple communities together together.
 
-if communities(i) < communities(j)
-    communities(communities == communities(j)) = communities(i);
-elseif communities(j) < communities(i)
-    communities(communities == communities(i)) = communities(j);
+% get community numbers for each
+nums = communities(idx);
+
+% use lowest as new community number
+new_num = min(nums);
+
+% renumber all, if required
+if any(nums > new_num)
+    communities(ismember(communities, nums)) = new_num;
 end
 
 end
