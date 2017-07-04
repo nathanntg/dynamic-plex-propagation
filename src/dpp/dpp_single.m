@@ -77,6 +77,12 @@ for i = 1:(num_cliq_and_plex-1)
     % remaining cliques/plexes
     js = (i+1):num_cliq_and_plex;
     
+    % optimization: only consider those that are not already part of the same community
+    js = js(communities(js) ~= communities(i));
+    if isempty(js)
+        continue;
+    end
+    
     % vector of overlaps between remaining cliques/plexes and clique/plex i
     overlap = sum(cliq_and_plex(js, cliq_and_plex(i, :)), 2);
     

@@ -5,7 +5,7 @@ function [cliq_and_plex1, communities1, cliq_and_plex2, communities2, dyn_commun
 %   community.
 
 % reuse previous calculations
-if ~exist('cliq1', 'var')
+if ~exist('cliq_and_plex1', 'var')
     [cliq_and_plex1, communities1] = dpp_single(a1, k, m);
 end
 
