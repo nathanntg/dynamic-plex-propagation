@@ -24,6 +24,7 @@ communities = [];
 
 % for each time step
 for t = 1:(max_t - 1)
+    nchar = fprintf('%.1f%%', 100*t/max_t);
     if 1 < t
         % second and later iteration
         % reuse previous calculations
@@ -85,7 +86,7 @@ for t = 1:(max_t - 1)
         end
     end
     
-    %fprintf('%.1f%%\n', 100*t/max_t);
+    fprintf(repmat('\b', 1, nchar));
 end
 
 % renumber communities
