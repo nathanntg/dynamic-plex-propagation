@@ -77,6 +77,12 @@ for i = 1:(num_cliq_and_plex-1)
     % remaining cliques/plexes
     js = (i+1):num_cliq_and_plex;
     
+    % optimization: only consider those that are not already part of the same community
+    js = js(communities(js) ~= communities(i));
+    if isempty(js)
+        continue;
+    end
+    
     % vector of overlaps between remaining cliques/plexes and clique/plex i
     overlap = sum(cliq_and_plex(js, cliq_and_plex(i, :)), 2);
     
@@ -89,10 +95,8 @@ for i = 1:(num_cliq_and_plex-1)
         idx = overlap >= (m-1);
     end
     
-    for j = js(idx)
-        % merge into a community
-        communities = communities_merge(communities, i, j);
-    end
+    % merge into a single community
+    communities = communities_merge(communities, [i js(idx)]);
 end
 
 % renumber components in sequential ascending order
