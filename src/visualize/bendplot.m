@@ -1,4 +1,4 @@
-function [] = bendplot(a, comm, circmat, xy)
+function [] = bendplot(a, comm, circmat, xy, labels)
 % Copyright Wes Viles 2013
 
     p = size(a,1);
@@ -6,6 +6,11 @@ function [] = bendplot(a, comm, circmat, xy)
     hold on
     for h = 1:p
         plot(xy(h,1),xy(h,2),'.','Color',[0,0,0],'MarkerSize',15);
+        if nargin == 5
+            text(xy(h,1)-0.2,xy(h,2)+0.15,labels{h});
+        else
+            text(xy(h,1)-0.2,xy(h,2)+0.15,num2str(h));
+        end
     end
     hold off
     ylim([min(xy(:,2))-1,max(xy(:,2))+1]); 
