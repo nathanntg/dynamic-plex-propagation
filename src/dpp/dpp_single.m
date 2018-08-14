@@ -28,9 +28,6 @@ n = size(a, 1);
 % find cliques of size m or larger
 cliq = bk(a, m);
 
-% number of cliques
-num_cliq = size(cliq, 1);
-
 % all vertices that are connected but not in a clique
 vs = [];
 already_considered = false(1, n);
@@ -68,10 +65,6 @@ num_cliq_and_plex = size(cliq_and_plex, 1);
 % to start, everything in a seperate component
 communities = 1:num_cliq_and_plex;
 
-% precompute thresholds
-threshold = (m - 1) * ones(num_cliq_and_plex, 1);
-threshold((num_cliq + 1):num_cliq_and_plex) = m - 2;
-
 % consider pairs of cliques/k-plexes
 for i = 1:(num_cliq_and_plex-1)
     % remaining cliques/plexes
@@ -86,14 +79,8 @@ for i = 1:(num_cliq_and_plex-1)
     % vector of overlaps between remaining cliques/plexes and clique/plex i
     overlap = sum(cliq_and_plex(js, cliq_and_plex(i, :)), 2);
     
-    % threshold for xor(i <= num_cliq, j <= num_cliq) is m-2
-    % elsewhere is m-1
-    % since i < j, can use shortcut
-    if i <= num_cliq
-        idx = overlap >= threshold(js);
-    else
-        idx = overlap >= (m-1);
-    end
+    % threshold is m-1
+    idx = overlap >= (m-1);
     
     % merge into a single community
     communities = communities_merge(communities, [i js(idx)]);
