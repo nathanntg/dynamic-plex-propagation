@@ -6,7 +6,7 @@ function [] = bendplot(a, comm, circmat, xy, labels)
     hold on
     for h = 1:p
         plot(xy(h,1),xy(h,2),'.','Color',[0,0,0],'MarkerSize',15);
-        if nargin == 5
+        if exist('labels', 'var') && ~isempty(labels)
             text(xy(h,1)-0.2,xy(h,2)+0.15,labels{h});
         else
             text(xy(h,1)-0.2,xy(h,2)+0.15,num2str(h));
